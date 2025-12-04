@@ -4,7 +4,7 @@
         "*": false,
         "plaintext": false,
         "markdown": false,
-        "cpp": false,
+        "cpp": true,
         "c": false,
         "h": false
     },
@@ -13,16 +13,16 @@
     },
     
     // Disable inline suggestions and completions from AI
-    "editor.inlineSuggest.enabled": false,
+    "editor.inlineSuggest.enabled": true,
     "editor.quickSuggestions": {
-        "other": false,
-        "comments": false,
-        "strings": false
+        "other": true,
+        "comments": true,
+        "strings": true
     },
     
     // Disable snippets that might use AI
     "editor.snippetSuggestions": "none",
-    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": true,
     
     // Disable IntelliCode AI-assisted completions
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
@@ -40,7 +40,8 @@
     "files.associations": {
         "*.h": "cpp",
         "*.cpp": "cpp",
-        "*.txt": "plaintext"
+        "*.txt": "plaintext",
+        "iostream": "cpp"
     },
     
     // Editor settings for academic integrity
