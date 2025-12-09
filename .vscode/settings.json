@@ -4,7 +4,7 @@
         "*": false,
         "plaintext": false,
         "markdown": false,
-        "cpp": true,
+        "cpp": false,
         "c": false,
         "h": false
     },
@@ -13,11 +13,11 @@
     },
     
     // Disable inline suggestions and completions from AI
-    "editor.inlineSuggest.enabled": true,
+    "editor.inlineSuggest.enabled": false,
     "editor.quickSuggestions": {
-        "other": true,
-        "comments": true,
-        "strings": true
+        "other": false,
+        "comments": false,
+        "strings": false
     },
     
     // Disable snippets that might use AI
