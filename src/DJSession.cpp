@@ -183,52 +183,87 @@ void DJSession::simulate_dj_performance() {
 
     std::cout << "TODO: Implement the DJ performance simulation workflow here." << std::endl;
     // Your implementation here
-    bool keepRunning = true;
-    
-    while (keepRunning) {
-        
-        // Get playlist name
-        std::string playlist_name = display_playlist_menu_from_config();
-        
-        // User cancelled
-        if (playlist_name.empty()) {
-            break;
-        }
-        
-        // Load playlist
-        if (!load_playlist(playlist_name)) {
-            std::cout << "[ERROR] Failed to load playlist: " << playlist_name << "\n";
-            continue;
-        }
-        
-        // Process each track in playlist
-        for (size_t i = 0; i < track_titles.size(); i++) {
-            std::cout << "\n--- Processing: " << track_titles[i] << " ---\n";
-            stats.tracks_processed++;
-            
-            load_track_to_controller(track_titles[i]);
-            load_track_to_mixer_deck(track_titles[i]);
-        }
-        
-        // Print summary
-        print_session_summary();
-        
-        // Reset stats for next playlist
-        stats.tracks_processed = 0;
-        stats.cache_hits = 0;
-        
-        stats.cache_misses = 0;
-        stats.cache_evictions = 0;
-        stats.deck_loads_a = 0;
-        stats.deck_loads_b = 0;
-        stats.transitions = 0;
-        stats.errors = 0;
-        
-        // If play_all mode, only run once
-        if (play_all) {
-            keepRunning = false;
-        }
-    }
+     if (play_all) {
+          // AUTO MODE: Process all playlists automatically
+          std::vector<std::string> playlist_names;
+          for (const auto& pair : session_config.playlists) {
+              playlist_names.push_back(pair.first);
+          }
+          std::sort(playlist_names.begin(), playlist_names.end());
+
+          for (const auto& playlist_name : playlist_names) {
+              // Load playlist
+              if (!load_playlist(playlist_name)) {
+                  std::cout << "[ERROR] Failed to load playlist: " << playlist_name << "\n";
+                  continue;
+              }
+
+              // Process each track in playlist
+              for (size_t i = 0; i < track_titles.size(); i++) {
+                  std::cout << "\n--- Processing: " << track_titles[i] << " ---\n";
+                  stats.tracks_processed++;
+
+                  load_track_to_controller(track_titles[i]);
+                  load_track_to_mixer_deck(track_titles[i]);
+              }
+
+              // Print summary
+              print_session_summary();
+
+              // Reset stats for next playlist
+              stats.tracks_processed = 0;
+              stats.cache_hits = 0;
+              stats.cache_misses = 0;
+              stats.cache_evictions = 0;
+              stats.deck_loads_a = 0;
+              stats.deck_loads_b = 0;
+              stats.transitions = 0;
+              stats.errors = 0;
+          }
+      } else {
+          // INTERACTIVE MODE: User selects playlists
+          bool keepRunning = true;
+
+          while (keepRunning) {
+              // Get playlist name
+              std::string playlist_name = display_playlist_menu_from_config();
+
+              // User cancelled
+              if (playlist_name.empty()) {
+                  break;
+              }
+
+              // Load playlist
+              if (!load_playlist(playlist_name)) {
+                  std::cout << "[ERROR] Failed to load playlist: " << playlist_name << "\n";
+                  continue;
+              }
+
+              // Process each track in playlist
+              for (size_t i = 0; i < track_titles.size(); i++) {
+                  std::cout << "\n--- Processing: " << track_titles[i] << " ---\n";
+                  stats.tracks_processed++;
+
+                  load_track_to_controller(track_titles[i]);
+                  load_track_to_mixer_deck(track_titles[i]);
+              }
+
+              // Print summary
+              print_session_summary();
+
+              // Reset stats for next playlist
+              stats.tracks_processed = 0;
+              stats.cache_hits = 0;
+              stats.cache_misses = 0;
+              stats.cache_evictions = 0;
+              stats.deck_loads_a = 0;
+              stats.deck_loads_b = 0;
+              stats.transitions = 0;
+              stats.errors = 0;
+          }
+      }
+
+
     
     std::cout << "Session cancelled by user or all playlists played.\n";
 }
