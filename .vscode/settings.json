@@ -2,14 +2,14 @@
     // Disable GitHub Copilot
     "github.copilot.enable": {
         "*": false,
-        "plaintext": false,
+        "plaintext": true,
         "markdown": false,
         "cpp": false,
-        "c": false,
+        "c": true,
         "h": false
     },
     "github.copilot.advanced": {
-        "inlineSuggestEnable": false
+        "inlineSuggestEnable": true
     },
     
     // Disable inline suggestions and completions from AI
@@ -34,7 +34,7 @@
     // C++ specific settings
     "C_Cpp.intelliSenseEngine": "default",
     "C_Cpp.autocomplete": "disabled",
-    "C_Cpp.errorSquiggles": "enabled",
+    "C_Cpp.errorSquiggles": "disabled",
     
     // File associations
     "files.associations": {
@@ -102,8 +102,8 @@
     
     // Editor settings for academic integrity
     "editor.acceptSuggestionOnCommitCharacter": false,
-    "editor.acceptSuggestionOnEnter": "off",
-    "editor.tabCompletion": "off",
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.tabCompletion": "on",
     "editor.wordBasedSuggestions": "off",
     "editor.suggest.showWords": false,
     
