@@ -20,7 +20,7 @@ AudioTrack* LRUCache::get(const std::string& track_id) {
 bool LRUCache::put(PointerWrapper<AudioTrack> track) {
     
     
-    if (track==nullptr) {
+    if (!track) {
         return false;
     }
     

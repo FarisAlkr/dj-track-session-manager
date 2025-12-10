@@ -91,7 +91,11 @@ public:
      */
 
     T& operator*() const {
-        return *ptr;
+         if (!ptr){
+
+          throw std::runtime_error("Cannot dereference null pointer");
+         }
+          return *ptr;
     };
 
     /**

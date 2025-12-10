@@ -47,7 +47,7 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
     }
     
     // Find target deck 
-    int target = 1 -active_deck;
+    size_t target = 1 - active_deck;
     
     // First track special case - both decks empty
     if (decks[0] == nullptr && decks[1] == nullptr) {
@@ -157,26 +157,16 @@ bool MixingEngineService::can_mix_tracks(const PointerWrapper<AudioTrack>& track
 void MixingEngineService::sync_bpm(const PointerWrapper<AudioTrack>& track) const {
     // Your implementation here
     
-     // Check both are valid
-    if (decks[active_deck] == nullptr) {
+      if (decks[active_deck] == nullptr) {
         return;
     }
     if (!track) {
         return;
     }
     
-    
     int originalBpm = track.get()->get_bpm();
-    
-    
     int deckBpm = decks[active_deck]->get_bpm();
-    
-    // Calculate average
     int newBpm = (originalBpm + deckBpm) / 2;
     
-    
-    track.get()->set_bpm(newBpm);
-
     std::cout << "[Sync BPM] Syncing BPM from " << originalBpm << " to " << newBpm << "\n";
-
 }
