@@ -46,6 +46,8 @@ bool DJSession::load_playlist(const std::string& playlist_name)  {
     }
     
     track_titles = library_service.getTrackTitles();
+    // reverse because playlist stores in reverse order
+    std::reverse(track_titles.begin(), track_titles.end());
     return true;
 }
 
@@ -88,7 +90,10 @@ int DJSession::load_track_to_controller(const std::string& track_name) {
     
     // Load to cache
     int result = controller_service.loadTrackToCache(*track);
-    
+
+    // show cache status
+    controller_service.displayCacheStatus();
+
     // Update stats based on result
     if (result == 1) {
 
@@ -181,7 +186,6 @@ void DJSession::simulate_dj_performance() {
     std::cout << "Cache Capacity: " << session_config.controller_cache_size << " slots (LRU policy)" << std::endl;
     std::cout << "\n--- Processing Tracks ---" << std::endl;
 
-    std::cout << "TODO: Implement the DJ performance simulation workflow here." << std::endl;
     // Your implementation here
      if (play_all) {
           // AUTO MODE: Process all playlists automatically
@@ -209,16 +213,6 @@ void DJSession::simulate_dj_performance() {
 
               // Print summary
               print_session_summary();
-
-              // Reset stats for next playlist
-              stats.tracks_processed = 0;
-              stats.cache_hits = 0;
-              stats.cache_misses = 0;
-              stats.cache_evictions = 0;
-              stats.deck_loads_a = 0;
-              stats.deck_loads_b = 0;
-              stats.transitions = 0;
-              stats.errors = 0;
           }
       } else {
           // INTERACTIVE MODE: User selects playlists
@@ -250,22 +244,13 @@ void DJSession::simulate_dj_performance() {
 
               // Print summary
               print_session_summary();
-
-              // Reset stats for next playlist
-              stats.tracks_processed = 0;
-              stats.cache_hits = 0;
-              stats.cache_misses = 0;
-              stats.cache_evictions = 0;
-              stats.deck_loads_a = 0;
-              stats.deck_loads_b = 0;
-              stats.transitions = 0;
-              stats.errors = 0;
           }
       }
 
-
-    
     std::cout << "Session cancelled by user or all playlists played.\n";
+
+    // cleanup library memory
+    library_service.buildLibrary({});
 }
 
 

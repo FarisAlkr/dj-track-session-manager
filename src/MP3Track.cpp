@@ -3,11 +3,9 @@
 #include <cmath>
 #include <algorithm>
 
-MP3Track::MP3Track(const std::string& title, const std::vector<std::string>& artists, 
+MP3Track::MP3Track(const std::string& title, const std::vector<std::string>& artists,
                    int duration, int bpm, int bitrate, bool has_tags)
     : AudioTrack(title, artists, duration, bpm), bitrate(bitrate), has_id3_tags(has_tags) {
-
-    std::cout << "MP3Track created: " << bitrate << " kbps" << std::endl;
 }
 
 // ========== TODO: STUDENTS IMPLEMENT THESE VIRTUAL FUNCTIONS ==========
@@ -41,7 +39,7 @@ void MP3Track::analyze_beatgrid() {
     double beats = (duration_seconds / 60.0) * bpm;
     double precision_factor = bitrate / 320.0;
     
-    std::cout << "  → Estimated beats: " << beats << " → Compression precision factor: " << precision_factor << "\n";
+    std::cout << "  → Estimated beats: " << beats << "  → Compression precision factor: " << precision_factor << "\n";
 }
 
    

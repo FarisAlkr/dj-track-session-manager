@@ -23,6 +23,13 @@ DJLibraryService::DJLibraryService(const Playlist& playlist)
  */
 void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>& library_tracks) {
     //Todo: Implement buildLibrary method
+
+    // clear old stuff first
+    for (size_t i = 0; i < library.size(); i++) {
+        delete library[i];
+    }
+    library.clear();
+
     for (size_t i = 0; i < library_tracks.size(); i++) {
         
         AudioTrack* track = nullptr;
@@ -106,11 +113,17 @@ AudioTrack* DJLibraryService::findTrack(const std::string& track_title) {
      return playlist.find_track(track_title);
 }
 
-void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name, 
+void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
                                                const std::vector<int>& track_indices) {
     // Your implementation here
    std::cout << "[INFO] Loading playlist: " << playlist_name << "\n";
-    
+
+    // need to clear old playlist first or we get memory leaks
+    std::vector<AudioTrack*> old_tracks = playlist.getTracks();
+    for (size_t i = 0; i < old_tracks.size(); i++) {
+        playlist.remove_track(old_tracks[i]->get_title());
+    }
+
     playlist = Playlist(playlist_name);
     
     for (size_t i = 0; i < track_indices.size(); i++) {
@@ -134,7 +147,6 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
         cloned.get()->analyze_beatgrid();
         
         playlist.add_track(cloned.release());
-        std::cout << "Added '" << originalTrack->get_title() << "' to playlist '" << playlist_name << "'\n";
     }
     
     std::cout << "[INFO] Playlist loaded: " << playlist_name << " (" << playlist.get_track_count() << " tracks)\n";
